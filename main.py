@@ -52,40 +52,8 @@ class Home(MainHandler):
 class Header1(MainHandler):
     def get(self):
         self.render("header1.html")
-
-class Navbar1(MainHandler):
-    def get(self):
-        self.render("navbar1.html")
-
-class Portfolio(MainHandler):
-    def get(self):
-        self.render("portfolio.html")
-
-class Meet(MainHandler):
-    def get(self):
-        self.render("meet_the_team.html")
-
-class Design(MainHandler):
-    def get(self):
-        self.render("design.html")
-
-class Testimonials(MainHandler):
-    def get(self):
-        self.render("testimonials.html")
-
-class Marketing(MainHandler):
-    def get(self):
-        self.render("marketing.html")
         
 app = webapp2.WSGIApplication([
     ('/', HomePage),
-    ('/home', Home),
     ('/header1', Header1),
-    ('/navbar1', Navbar1),
-    ('/portfolio', Portfolio),
-    ('/design', Design),
-    ('/meet', Meet),
-    ('/testimonials', Testimonials),
-    ('/marketing', Marketing),
-
 ], debug=True)
