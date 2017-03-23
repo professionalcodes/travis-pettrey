@@ -10,10 +10,10 @@ function logArgs(args) {
 	});
 }
 
-function removeElement(element) {
+function jqRemoveElement(element) {
 	jQuery(element).remove();
 }
 
-function clearHtml(element) {
+function jqEmpty(element) {
 	jQuery(element).empty();
 }

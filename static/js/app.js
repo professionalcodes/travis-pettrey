@@ -1,255 +1,81 @@
 'use strict';
 
-var app = angular.module('logosApp', ['logosAppControllers', 'ngRoute']);
+var app = angular.module('travisApp', ['travisPettreyAppControllers', 'ngRoute']);
 
 var routeConfig = function($routeProvider) {
 
   $routeProvider
-  .when('/home', {
-    templateUrl: '/home',
-    controller: 'HomeCtrl'
-  })
+  .otherwise({ redirectTo: '/' })
 
-  .when('/portfolio', {
-    templateUrl: '/portfolio',
-    controller: 'PortfolioCtrl'
-  })
-
-  .when('/meet_the_team', {
-    templateUrl: '/meet',
-    controller: 'MeetCtrl'
-  })
-
-  .when('/testimonials', {
-    templateUrl: '/testimonials',
-    controller: 'TestimonialsCtrl'
-  })
-
-  .when('/design', {
-    templateUrl: '/design',
-    controller: 'DesignCtrl'
-  })
-
-  .when('/marketing', {
-    templateUrl: '/marketing',
-    controller: 'MarketingCtrl'
-  })
-
-  .when('/services', {
-    templateUrl: '/services',
-    controller: 'ServicesCtrl'
-  })
-
-  .otherwise({
-    redirectTo: "/home"
-  });
 }
 
 routeConfig.$inject = ["$routeProvider"];
 app.config(routeConfig);
 
-app.factory("WelcomeScreenService", [function() {
-    var WelcomeScreenService = {
-        self: this,
-        screenDisplay: function() {
-
-            var welcomeBtns = document.getElementsByClassName("welcome-buttons");
-            jQuery.each(welcomeBtns, function(index, element) {
-              jQuery(element).hide();
-            });
-            
-            var l = document.getElementById("l");
-            l.innerHTML = "<h1 class='l'>L<span class='rest' id='rest1'></span></h1>";
-            jQuery(l).hide();
-            this.fade(l, 3000);
-
-            var m = document.getElementById("m");
-            m.innerHTML = "<h1 class='m'>M<span class='rest' id='rest2'></span></h1>";
-            jQuery(m).hide();
-            this.fade(m, 4500);
-
-            var g = document.getElementById("g");
-            g.innerHTML = "<h1 class='g'>G<span class='rest' id='rest3'></span></h1>";
-            jQuery(g).hide();
-            this.fade(g, 6000, function() {
-              var rest = document.getElementsByClassName("rest");
-              var strings_to_populate = ["ogos", "edia", "roup"];
-
-              var counter = 500;
-              for (var i = 0; i < rest.length; i++) {
-                var ce = rest[i];
-                var string = strings_to_populate[i];
-                for (var j = 0; j < string.length; j++) {
-                  (function(element, letter, c) {
-                    window.setTimeout(function() {
-                        var new_element = document.createElement("span");
-                        new_element.innerHTML = letter;
-                        element.appendChild(new_element);
-                        jQuery(new_element).hide();
-                        jQuery(new_element).fadeIn(500, function(){});
-                        if (letter === "p") {
-                          // jQuery('.l').fadeOut(1000);
-                          // jQuery('.m').fadeOut(2000);
-                          // jQuery('.g').fadeOut(3000, function() {
-                          //   // jQuery('.l, .m, .g').remove();
-                            // jQuery("#lmg-row").removeClass("hidden");
-
-                          // });
-
-                          for (var i = 0, len=rest.length; i < len; i++) {
-                            (function(count, elem) {
-                              jQuery(elem).fadeOut(count, function() {
-                                
-                              });
-                            })((i + 1)*450, rest[i]);
-                          };
-
-                          jQuery.each(welcomeBtns, function(i, v) {
-                            var thirdCounter = "7500";
-                            jQuery(v).fadeIn(thirdCounter, function() {
-                              
-                            });
-                          })
-                        }
-                    }, c)
-                  })(ce, string[j], counter);
-                  counter += 200;
-                }
-              }
-            });
-        },
-        fade: function(element, duration, cb) {
-            jQuery(element).fadeIn(duration, function() {
-              if (cb) {
-                cb();
-              }
-            });
-        }
-
-    };
-
-    return WelcomeScreenService;
-
-}]);
-
 app.factory('HtmlService', [function () {
+
   var HtmlService = { 
-    addRowToElement: function(baseElement) {
-      angular.element(baseElement).append("<div class='row'></div>");
+
+    addRowToElement: function(baseElement, row) {
+      angular.element(baseElement).append(row);
     },
-    addColumnToElement: function(baseElement, columnSize) {
-      angular.element(baseElement).append("<div class='col-md-cs'></div>".replace("cs", columnSize));
+
+    addColumnToElement: function(baseElement, column) {
+      angular.element(baseElement).append(column);
     },
-    hideElements: function(className) {
+
+    createRow: function(attrsObject) {
+
+      var row = document.createElement("row");
+      for (key in attrsObject) {
+        row.setAttribute(key, attrsObject[key]);
+      }
+
+      return row;
+    },
+
+    jqHideElements: function(className) {
+
       var elements = document.getElementsByClassName(className);
-      $.each(elements, function(index, element) {
+      jQuery.each(elements, function(index, element) {
         jQuery(element).hide();
       });
+
+    },
+
+    jqShowElements: function(className) {
+
+      var elements = document.getElementsByClassName(className);
+      jQuery.each(elements, function(index, element) {
+        jQuery(element).show();
+      });
+
     },
   };
 
   return HtmlService;
+
 }]);
 
 app.factory('OnloadService', [function () {
 
   var OnloadService = {
     
-    setResize: function() {
-      var currentWindowWidth;
-      var currentWindowHeight;
-      
-      jQuery(window).resize(function(event) {        
-        currentWindowWidth = jQuery(window).width();
-        currentWindowHeight = jQuery(window).height();
-
-        // if (jQuery("#navbar").hasClass('in')) {
-        //   jQuery("#ngview-container").css('marginTop', '400px');
-        // } else {
-        //   jQuery("#ngview-container").css('marginTop', '50px');
-        // }
-
-        if (currentWindowWidth >= 767 && currentWindowWidth <= 816) {
-          
-          jQuery("#middle-header-nav").css({
-            position: 'absolute',
-            right: '20px',
-          });
-        
-        } else {
-          jQuery("#middle-header-nav").css({
-            position: 'relative',
-            right: '0',
-          });
-        }
-
-        if (currentWindowWidth > 767 && currentWindowWidth < 991) {
-          jQuery("#header-container").removeClass("container").addClass('container-fluid');
-
-        } else {
-          jQuery("#header-container").removeClass("container-fluid").addClass('container');
-        }
-      });
-    },
+    setResize: function() {},
 
     resize: function() {
-
       jQuery(window).resize();
-
     },
 
-    setNavScroll: function() {
-
-      var bottomElementOfNav = jQuery("#link-nav-menu li a").last()[0];
-      var testimonialsLink = document.getElementById("testimonials-link");
-      var logosHeaderText = document.getElementById("header-text-nav");
-      var socialNetworkBar = document.getElementById("middle-header-nav");
-
-      testimonialsLink.onmouseover = function() {
-        bottomElementOfNav.scrollIntoView();
-      }
-
-      socialNetworkBar.onmouseover = function() {
-        logosHeaderText.scrollIntoView();
-      };
-
-    },
-
-    setCollapseOnclick: function() {
-      var menuBtn = document.getElementById("navbar-collapse-btn");
-      var ngviewContainer = document.getElementById("ngview-container");
-      var lastMarginTop;
-
-      menuBtn.onclick = function() {
-        var currentWindowWidth = jQuery(window).width();
-
-        // if (jQuery("#navbar").hasClass('in') && currentWindowWidth <= 767)
-        //   jQuery("#ngview-container").addClass('c-four');
-
-        // if (currentWindowWidth <= 781 && currentWindowWidth >= 768) {
-        //   jQuery("#ngview-container").addClass('c-three');
-        // } else if (currentWindowWidth >= 782) {
-        //   jQuery("#ngview-container").addClass('c-two');
-        // } else if (currentWindowWidth <= 767) {
-        //   jQuery("#ngview-container").addClass('c-one');
-        // }
-
-        if (ngviewContainer.style.marginTop === "450px") {
-          window.setTimeout(function() {
-            jQuery("#ngview-container").css("marginTop", "90px");
-          }, 300)
-        } else if (ngviewContainer.style.marginTop === "90px" || ngviewContainer.style.marginTop === "") {
-            jQuery("#ngview-container").css("marginTop", "450px");
-        }
-      }
-    }
-  }
+  };
 
   return OnloadService;
 
 }]);
 
-app.run(['WelcomeScreenService', 'OnloadService', function (WelcomeScreenService, OnloadService) {
+    
+
+app.run(['OnloadService', "HtmlService", function (OnloadService, HtmlService) {
     
 }]);
 //var app = angular.module('logosApp', ['respectRejectionAppControllers', 'ngRoute']);

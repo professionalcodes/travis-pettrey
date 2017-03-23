@@ -1,12 +1,11 @@
 'use strict';
 
-var logosApp = logosApp || {};
-var controllers = logosApp.controllers = angular.module('logosAppControllers', []);
+var travisApp = travisApp || {};
+var controllers = travisApp.controllers = angular.module('travisPettreyAppControllers', []);
 
 controllers.controller('RootCtrl', ["$scope", "$location", function ($scope, $location) {
 
-	if ($location.path() === "/")
-		$location.path("/home");
+	if ($location.path() === "/") {}
 }]);
 
 controllers.controller('HomeCtrl', ['$scope', '$location', "WelcomeScreenService", function ($scope, $location, WelcomeScreenService) {
@@ -22,39 +21,8 @@ controllers.controller('HomeCtrl', ['$scope', '$location', "WelcomeScreenService
 controllers.controller('Header1Ctrl', ['$scope', 'OnloadService', function ($scope, OnloadService) {
 	
 	$scope.runOnload = function() {
-		OnloadService.setResize();
-		OnloadService.resize();
-		OnloadService.setNavScroll();
-		OnloadService.setCollapseOnclick();		
+				
 	};
-}])
-
-controllers.controller('Navbar1Ctrl', ['$scope', function ($scope) {
-	
-}])
-
-controllers.controller('PortfolioCtrl', ['$scope', function ($scope) {
-	
-}])
-	
-controllers.controller('DesignCtrl', ['$scope', function ($scope) {
-	
-}])
-
-controllers.controller('MarketingCtrl', ['$scope', function ($scope) {
-	
-}])
-	
-controllers.controller('MeetCtrl', ['$scope', function ($scope) {
-	
-}])
-
-controllers.controller('TestimonialsCtrl', ['$scope', function ($scope) {
-	
-}])
-
-controllers.controller('ServicesCtrl', ['$scope', function ($scope) {
-	
 }])
 
 	
